@@ -74,7 +74,7 @@ if (-not (Test-Path $jenkinsWar)) {
 }
 
 # Create Jenkins service script
-$jenkinsServiceScript = @"
+$jenkinsServiceScript = @'
 @echo off
 echo Starting Jenkins for Fusionpact DevOps Challenge...
 set JENKINS_HOME=C:\Jenkins\jenkins_home
@@ -89,7 +89,7 @@ echo.
 java -Djenkins.install.runSetupWizard=false -Djava.awt.headless=true -jar C:\Jenkins\jenkins.war --httpPort=8080 --ajp13Port=-1
 
 pause
-"@
+'@
 
 $jenkinsServiceScript | Out-File -FilePath "$jenkinsDir\start-jenkins.bat" -Encoding ASCII
 Write-Host "✅ Created Jenkins startup script: $jenkinsDir\start-jenkins.bat" -ForegroundColor Green
@@ -108,7 +108,7 @@ if (-not (Test-Path $adminDir)) {
 }
 
 # Create admin user config
-$adminConfig = @"
+$adminConfig = @'
 <?xml version='1.1' encoding='UTF-8'?>
 <user>
   <fullName>Administrator</fullName>
@@ -124,12 +124,12 @@ $adminConfig = @"
     </hudson.security.HudsonPrivateSecurityRealm_-Details>
   </properties>
 </user>
-"@
+'@
 
 $adminConfig | Out-File -FilePath "$adminDir\config.xml" -Encoding UTF8
 
 # Create Jenkins main config
-$jenkinsConfig = @"
+$jenkinsConfig = @'
 <?xml version='1.1' encoding='UTF-8'?>
 <hudson>
   <disabledAdministrativeMonitors/>
@@ -174,7 +174,7 @@ $jenkinsConfig = @"
   <nodeProperties/>
   <globalNodeProperties/>
 </hudson>
-"@
+'@
 
 $jenkinsConfig | Out-File -FilePath "$jenkinsHome\config.xml" -Encoding UTF8
 
@@ -191,7 +191,7 @@ if (-not (Test-Path $projectJobDir)) {
     New-Item -ItemType Directory -Path $projectJobDir -Force
 }
 
-$jobConfig = @"
+$jobConfig = @'
 <?xml version='1.1' encoding='UTF-8'?>
 <flow-definition plugin="workflow-job@2.42">
   <actions>
@@ -238,12 +238,12 @@ $jobConfig = @"
   <triggers/>
   <disabled>false</disabled>
 </flow-definition>
-"@
+'@
 
 $jobConfig | Out-File -FilePath "$projectJobDir\config.xml" -Encoding UTF8
 
 # Create startup instructions
-$instructions = @"
+$instructions = @'
 🎉 Jenkins Setup Complete for Fusionpact DevOps Challenge Level 3!
 
 NEXT STEPS:
@@ -314,7 +314,7 @@ SECURITY NOTES:
 - Set up Docker Hub credentials for image pushing
 
 Ready to run Level 3 CI/CD Pipeline! 🚀
-"@
+'@
 
 Write-Host $instructions -ForegroundColor Cyan
 
