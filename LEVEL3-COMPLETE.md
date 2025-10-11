@@ -99,10 +99,10 @@
 ## 🌐 Access Information
 
 ### Jenkins Dashboard
-- **URL**: http://localhost:8080
+- **URL**: http://localhost:8090
 - **Username**: admin
 - **Password**: admin123
-- **Pipeline Job**: http://localhost:8080/job/fusionpact-devops-challenge/
+- **Pipeline Job**: http://localhost:8090/job/fusionpact-devops-challenge/
 
 ### Service Endpoints (when deployed)
 - **Frontend**: http://localhost:8080 (Nginx)

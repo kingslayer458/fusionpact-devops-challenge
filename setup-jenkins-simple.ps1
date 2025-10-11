@@ -1,5 +1,10 @@
 # Jenkins Setup Script for Fusionpact DevOps Challenge Level 3
-Write-Host "Setting up Jenkins for Level 3 CI/CD Pipeline..." -ForegroundColor Green
+Write-Host "SeWrite-Host "Next Steps:" -ForegroundColor Cyan
+Write-Host "1. Start Jenkins: $jenkinsDir\start-jenkins.bat" -ForegroundColor White
+Write-Host "2. Access Jenkins: http://localhost:8090" -ForegroundColor White
+Write-Host "3. Default credentials: admin / admin123" -ForegroundColor White
+Write-Host ""
+Write-Host "To start Jenkins now, run: .\run-jenkins-simple.ps1" -ForegroundColor Yellowup Jenkins for Level 3 CI/CD Pipeline..." -ForegroundColor Green
 
 # Check prerequisites
 Write-Host "Checking prerequisites..." -ForegroundColor Yellow
@@ -51,8 +56,8 @@ $batContent = @'
 echo Starting Jenkins for Fusionpact DevOps Challenge...
 set JENKINS_HOME=C:\Jenkins\jenkins_home
 if not exist "%JENKINS_HOME%" mkdir "%JENKINS_HOME%"
-echo Jenkins will be available at: http://localhost:8080
-java -Djenkins.install.runSetupWizard=false -jar C:\Jenkins\jenkins.war --httpPort=8080
+echo Jenkins will be available at: http://localhost:8090
+java -Djenkins.install.runSetupWizard=false -jar C:\Jenkins\jenkins.war --httpPort=8090
 pause
 '@
 

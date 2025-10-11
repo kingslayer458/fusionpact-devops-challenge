@@ -40,7 +40,7 @@ Test-Check "Staging Compose" (Test-Path ".\docker-compose.staging.yml")
 # Check Jenkins service
 Write-Host "`nJenkins Service:" -ForegroundColor Yellow
 try {
-    $response = Invoke-WebRequest -Uri "http://localhost:8080" -UseBasicParsing -TimeoutSec 5 -ErrorAction Stop
+    $response = Invoke-WebRequest -Uri "http://localhost:8090" -UseBasicParsing -TimeoutSec 5 -ErrorAction Stop
     Test-Check "Jenkins Web Interface" ($response.StatusCode -eq 200)
 } catch {
     Test-Check "Jenkins Web Interface" $false
@@ -70,7 +70,7 @@ if ($successRate -ge 90) {
 }
 
 Write-Host "`nJenkins Access:" -ForegroundColor Cyan
-Write-Host "URL: http://localhost:8080" -ForegroundColor White
+Write-Host "URL: http://localhost:8090" -ForegroundColor White
 Write-Host "Default Login: admin / admin123" -ForegroundColor White
 
 if (Test-Path "jenkins-session.json") {

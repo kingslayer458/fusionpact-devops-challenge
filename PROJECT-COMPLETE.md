@@ -89,8 +89,8 @@
 - **Node Exporter**: http://localhost:9100/metrics
 
 ### CI/CD Services
-- **Jenkins**: http://localhost:8080 (admin/admin123)
-- **Pipeline Job**: http://localhost:8080/job/fusionpact-devops-challenge/
+- **Jenkins**: http://localhost:8090 (admin/admin123)
+- **Pipeline Job**: http://localhost:8090/job/fusionpact-devops-challenge/
 
 ---
 

@@ -5,7 +5,7 @@ Write-Host "Starting Jenkins..." -ForegroundColor Green
 $jenkinsProcess = Get-Process -Name "java" -ErrorAction SilentlyContinue | Where-Object { $_.CommandLine -like "*jenkins.war*" }
 if ($jenkinsProcess) {
     Write-Host "Jenkins is already running!" -ForegroundColor Yellow
-    Start-Process "http://localhost:8080"
+    Start-Process "http://localhost:8090"
     exit 0
 }
 
@@ -25,7 +25,7 @@ Write-Host "Jenkins Home: $env:JENKINS_HOME" -ForegroundColor Cyan
 $jenkinsJob = Start-Job -ScriptBlock {
     param($jenkinsWar, $jenkinsHome)
     $env:JENKINS_HOME = $jenkinsHome
-    java -Djenkins.install.runSetupWizard=false -jar $jenkinsWar --httpPort=8080
+    & java "-Djenkins.install.runSetupWizard=false" "-jar" $jenkinsWar "--httpPort=8090"
 } -ArgumentList $jenkinsWar, $env:JENKINS_HOME
 
 Write-Host "Jenkins starting (Job ID: $($jenkinsJob.Id))..." -ForegroundColor Yellow
@@ -40,7 +40,7 @@ while ($waited -lt $maxWait -and -not $ready) {
     Start-Sleep -Seconds 5
     $waited += 5
     try {
-        $response = Invoke-WebRequest -Uri "http://localhost:8080" -UseBasicParsing -TimeoutSec 5 -ErrorAction SilentlyContinue
+        $response = Invoke-WebRequest -Uri "http://localhost:8090" -UseBasicParsing -TimeoutSec 5 -ErrorAction SilentlyContinue
         if ($response.StatusCode -eq 200) {
             $ready = $true
         }
@@ -55,18 +55,18 @@ if ($ready) {
     Write-Host "Jenkins is ready!" -ForegroundColor Green
     Write-Host ""
     Write-Host "ACCESS INFO:" -ForegroundColor Cyan
-    Write-Host "URL: http://localhost:8080" -ForegroundColor White
+    Write-Host "URL: http://localhost:8090" -ForegroundColor White
     Write-Host "Username: admin" -ForegroundColor White
     Write-Host "Password: admin123" -ForegroundColor White
     Write-Host ""
     Write-Host "Opening Jenkins..." -ForegroundColor Yellow
-    Start-Process "http://localhost:8080"
+    Start-Process "http://localhost:8090"
     
     # Save session info
     @{
         JobId = $jenkinsJob.Id
         StartTime = Get-Date
-        URL = "http://localhost:8080"
+        URL = "http://localhost:8090"
     } | ConvertTo-Json | Out-File "jenkins-session.json"
     
 } else {
