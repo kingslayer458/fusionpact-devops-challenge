@@ -137,7 +137,7 @@ pipeline {
                     
                     echo Starting test containers...
                     docker run -d --name fusionpact-backend-test -p 8001:8000 %BACKEND_IMAGE%:latest || echo Backend container start attempted
-                    docker run -d --name fusionpact-frontend-test -p 8081:80 %FRONTEND_IMAGE%:latest || echo Frontend container start attempted
+                    docker run -d --name fusionpact-frontend-test -p 8082:80 %FRONTEND_IMAGE%:latest || echo Frontend container start attempted
                     
                     echo Test deployment completed
                 '''
@@ -158,7 +158,7 @@ pipeline {
                     curl -f http://localhost:8001/health 2>nul || echo Backend health check attempted
                     
                     echo Testing frontend availability...
-                    curl -f http://localhost:8081/ 2>nul || echo Frontend availability check attempted
+                    curl -f http://localhost:8082/ 2>nul || echo Frontend availability check attempted
                     
                     echo Integration tests completed
                 '''
