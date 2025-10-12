@@ -198,12 +198,7 @@ pipeline {
         }
         
         stage('Deploy to Production') {
-            when {
-                anyOf {
-                    branch 'main'
-                    branch 'master'
-                }
-            }
+
             steps {
                 echo '🌟 Deploying to production...'
                 bat '''
