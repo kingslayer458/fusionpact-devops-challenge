@@ -20,7 +20,7 @@ COPY . .
 RUN mkdir -p /app/app/data
 
 # Expose port 8000
-EXPOSE 8000
+EXPOSE 8060
 
 # Command to run the application
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8060"]
