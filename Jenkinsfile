@@ -136,8 +136,8 @@ pipeline {
                     docker rm fusionpact-backend-test fusionpact-frontend-test 2>nul || echo No containers to remove
                     
                     echo Starting test containers...
-                    docker run -d --name fusionpact-backend-test -p 8001:8000 %BACKEND_IMAGE%:latest || echo Backend container start attempted
-                    docker run -d --name fusionpact-frontend-test -p 8082:80 %FRONTEND_IMAGE%:latest || echo Frontend container start attempted
+                     docker run -d --name fusionpact-frontend-test -p 8070:80 %FRONTEND_IMAGE%:latest || echo Frontend container start attempted
+                    docker run -d --name fusionpact-backend-test -p 8060:8060 %BACKEND_IMAGE%:latest || echo Backend container start attempted
                     
                     echo Test deployment completed
                 '''
@@ -155,10 +155,12 @@ pipeline {
                     docker ps --format "table {{.Names}}\\t{{.Status}}\\t{{.Ports}}" || echo Container status check completed
                     
                     echo Testing backend health...
-                    curl -f http://localhost:8001/health 2>nul || echo Backend health check attempted
+                    
+                    curl -f http://localhost:8060/health 2>nul || echo Backend health check attempted
+                    
                     
                     echo Testing frontend availability...
-                    curl -f http://localhost:8082/ 2>nul || echo Frontend availability check attempted
+                    curl -f http://localhost:8070/ 2>nul || echo Frontend availability check attempted
                     
                     echo Integration tests completed
                 '''
@@ -174,7 +176,7 @@ pipeline {
                     echo Testing response times...
                     for /L %%i in (1,1,3) do (
                         echo Request %%i:
-                        curl -w "Response Time: %%{time_total}s\\n" -o nul -s http://localhost:8001/health 2>nul || echo Request %%i attempted
+                        curl -w "Response Time: %%{time_total}s\\n" -o nul -s http://localhost:8060/health 2>nul || echo Request %%i attempted
                     )
                     
                     echo Performance tests completed
