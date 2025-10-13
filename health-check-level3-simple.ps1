@@ -40,8 +40,16 @@ Test-Check "Staging Compose" (Test-Path ".\docker-compose.staging.yml")
 # Check Jenkins service
 Write-Host "`nJenkins Service:" -ForegroundColor Yellow
 try {
-    $response = Invoke-WebRequest -Uri "http://localhost:8090" -UseBasicParsing -TimeoutSec 5 -ErrorAction Stop
-    Test-Check "Jenkins Web Interface" ($response.StatusCode -eq 200)
+    $response = Invoke-WebRequest -Uri "http://localhost:8080" -UseBasicParsing -TimeoutSec 5 -ErrorAction Stop
+    # Jenkins returns 200 (OK) or 403 (Forbidden/Setup) when running properly
+    Test-Check "Jenkins Web Interface" ($response.StatusCode -eq 200 -or $response.StatusCode -eq 403)
+} catch [System.Net.WebException] {
+    # Check if it's a 403 Forbidden (Jenkins setup/auth required)
+    if ($_.Exception.Response.StatusCode -eq 403) {
+        Test-Check "Jenkins Web Interface" $true
+    } else {
+        Test-Check "Jenkins Web Interface" $false
+    }
 } catch {
     Test-Check "Jenkins Web Interface" $false
 }
@@ -70,8 +78,8 @@ if ($successRate -ge 90) {
 }
 
 Write-Host "`nJenkins Access:" -ForegroundColor Cyan
-Write-Host "URL: http://localhost:8090" -ForegroundColor White
-Write-Host "Default Login: admin / admin123" -ForegroundColor White
+Write-Host "URL: http://localhost:8080" -ForegroundColor White
+Write-Host "Default Login: admin1 / admin458" -ForegroundColor White
 
 if (Test-Path "jenkins-session.json") {
     $session = Get-Content "jenkins-session.json" | ConvertFrom-Json

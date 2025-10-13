@@ -122,8 +122,8 @@ If you want to see more interesting metrics, run this to generate API traffic:
 ```bash
 # In PowerShell
 for ($i = 1; $i -le 20; $i++) { 
-    Invoke-WebRequest -Uri "http://localhost:8000" | Out-Null
-    Invoke-WebRequest -Uri "http://localhost:8000/users" | Out-Null
+    Invoke-WebRequest -Uri "http://localhost:8060" | Out-Null
+    Invoke-WebRequest -Uri "http://localhost:8060/users" | Out-Null
     Start-Sleep -Seconds 1 
 }
 ```

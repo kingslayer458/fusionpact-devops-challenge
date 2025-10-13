@@ -4,3 +4,8 @@ press win+ r
 paste the command
 
 "C:\Program Files\Java\jdk-21\bin\java.exe" -jar "C:\Program Files\Jenkins\jenkins.war"
+
+
+docker-compose -f docker-compose.monitoring.yml up -d
+
+docker-compose -f docker-compose.monitoring.yml down 

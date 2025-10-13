@@ -20,7 +20,7 @@ echo ""
 
 # Test Frontend
 echo "🌐 Testing Frontend Service..."
-FRONTEND_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080)
+FRONTEND_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8070)
 if [ "$FRONTEND_STATUS" -eq 200 ]; then
     echo "✅ Frontend: HEALTHY (Status: $FRONTEND_STATUS)"
 else
@@ -29,12 +29,12 @@ fi
 
 # Test Backend API
 echo "⚡ Testing Backend API..."
-BACKEND_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8000)
+BACKEND_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8060)
 if [ "$BACKEND_STATUS" -eq 200 ]; then
     echo "✅ Backend API: HEALTHY (Status: $BACKEND_STATUS)"
     
     # Test API response
-    API_RESPONSE=$(curl -s http://localhost:8000)
+    API_RESPONSE=$(curl -s http://localhost:8060)
     echo "   Response: $API_RESPONSE"
 else
     echo "❌ Backend API: UNHEALTHY (Status: $BACKEND_STATUS)"
@@ -42,7 +42,7 @@ fi
 
 # Test Metrics Endpoint
 echo "📈 Testing Metrics Endpoint..."
-METRICS_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/metrics)
+METRICS_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8060/metrics)
 if [ "$METRICS_STATUS" -eq 200 ]; then
     echo "✅ Metrics: HEALTHY (Status: $METRICS_STATUS)"
 else
@@ -51,7 +51,7 @@ fi
 
 # Test Users API
 echo "👥 Testing Users API..."
-USERS_GET_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/users)
+USERS_GET_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8060/users)
 if [ "$USERS_GET_STATUS" -eq 200 ]; then
     echo "✅ Users GET: HEALTHY (Status: $USERS_GET_STATUS)"
     
@@ -64,7 +64,7 @@ fi
 
 # Test POST endpoint with sample data
 echo "📝 Testing Users POST..."
-POST_RESPONSE=$(curl -s -X POST http://localhost:8000/users \
+POST_RESPONSE=$(curl -s -X POST http://localhost:8060/users \
     -H "Content-Type: application/json" \
     -d '{"first_name":"Test","last_name":"User","age":25}' \
     -w "%{http_code}")
