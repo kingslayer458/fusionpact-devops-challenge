@@ -47,8 +47,8 @@ docker-compose -f docker-compose.monitoring.yml logs -f
 .\health-check-level2.ps1
 
 # Access URLs
-# Frontend:        http://localhost:8080
-# Backend API:     http://localhost:8000
+# Frontend:        http://localhost:8070
+# Backend API:     http://localhost:8060
 # Prometheus:      http://localhost:9090
 # Grafana:         http://localhost:3000 (admin/admin123)
 # cAdvisor:        http://localhost:8081

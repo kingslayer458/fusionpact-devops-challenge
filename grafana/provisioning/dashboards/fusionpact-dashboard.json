@@ -104,10 +104,16 @@
       },
       "targets": [
         {
-          "expr": "rate(container_cpu_usage_seconds_total{name=~\"fusionpact-.*\"}[5m]) * 100",
+          "expr": "rate(container_cpu_usage_seconds_total{id=~\"/docker/.*\"}[5m]) * 100",
           "interval": "",
-          "legendFormat": "{{name}} CPU Usage",
+          "legendFormat": "{{id}} CPU Usage",
           "refId": "A"
+        },
+        {
+          "expr": "100 - (avg(irate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100)",
+          "interval": "",
+          "legendFormat": "Host CPU Usage",
+          "refId": "B"
         }
       ],
       "title": "Container CPU Usage",
@@ -185,10 +191,16 @@
       },
       "targets": [
         {
-          "expr": "container_memory_usage_bytes{name=~\"fusionpact-.*\"}",
+          "expr": "container_memory_usage_bytes{id=~\"/docker/.*\"} / 1024 / 1024",
           "interval": "",
-          "legendFormat": "{{name}} Memory Usage",
+          "legendFormat": "{{id}} Memory Usage (MB)",
           "refId": "A"
+        },
+        {
+          "expr": "(node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / 1024 / 1024",
+          "interval": "",
+          "legendFormat": "Host Memory Usage (MB)",
+          "refId": "B"
         }
       ],
       "title": "Container Memory Usage",
