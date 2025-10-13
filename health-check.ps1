@@ -22,7 +22,7 @@ Write-Host ""
 # Test Frontend
 Write-Host "Testing Frontend Service..." -ForegroundColor Yellow
 try {
-    $frontendResponse = Invoke-WebRequest -Uri "http://localhost:8080" -Method Head -TimeoutSec 10
+    $frontendResponse = Invoke-WebRequest -Uri "http://localhost:8070" -Method Head -TimeoutSec 10
     if ($frontendResponse.StatusCode -eq 200) {
         Write-Host "Frontend: HEALTHY (Status: $($frontendResponse.StatusCode))" -ForegroundColor Green
     } else {
@@ -35,7 +35,7 @@ try {
 # Test Backend API
 Write-Host "Testing Backend API..." -ForegroundColor Yellow
 try {
-    $backendResponse = Invoke-WebRequest -Uri "http://localhost:8000" -TimeoutSec 10
+    $backendResponse = Invoke-WebRequest -Uri "http://localhost:8070" -TimeoutSec 10
     if ($backendResponse.StatusCode -eq 200) {
         Write-Host "Backend API: HEALTHY (Status: $($backendResponse.StatusCode))" -ForegroundColor Green
         Write-Host "   Response: $($backendResponse.Content)" -ForegroundColor Gray
@@ -49,7 +49,7 @@ try {
 # Test Metrics Endpoint
 Write-Host "Testing Metrics Endpoint..." -ForegroundColor Yellow
 try {
-    $metricsResponse = Invoke-WebRequest -Uri "http://localhost:8000/metrics" -Method Head -TimeoutSec 10
+    $metricsResponse = Invoke-WebRequest -Uri "http://localhost:8060/metrics" -Method Head -TimeoutSec 10
     if ($metricsResponse.StatusCode -eq 200) {
         Write-Host "Metrics: HEALTHY (Status: $($metricsResponse.StatusCode))" -ForegroundColor Green
     } else {
@@ -62,7 +62,7 @@ try {
 # Test Users API
 Write-Host "Testing Users API..." -ForegroundColor Yellow
 try {
-    $usersResponse = Invoke-WebRequest -Uri "http://localhost:8000/users" -TimeoutSec 10
+    $usersResponse = Invoke-WebRequest -Uri "http://localhost:8060/users" -TimeoutSec 10
     if ($usersResponse.StatusCode -eq 200) {
         Write-Host "Users GET: HEALTHY (Status: $($usersResponse.StatusCode))" -ForegroundColor Green
         Write-Host "   Current users: $($usersResponse.Content)" -ForegroundColor Gray
@@ -82,7 +82,7 @@ try {
         age = 25
     } | ConvertTo-Json
 
-    $postResponse = Invoke-WebRequest -Uri "http://localhost:8000/users" -Method Post -Body $postBody -ContentType "application/json" -TimeoutSec 10
+    $postResponse = Invoke-WebRequest -Uri "http://localhost:8060/users" -Method Post -Body $postBody -ContentType "application/json" -TimeoutSec 10
     if ($postResponse.StatusCode -eq 200) {
         Write-Host "Users POST: HEALTHY (Status: $($postResponse.StatusCode))" -ForegroundColor Green
         Write-Host "   Response: $($postResponse.Content)" -ForegroundColor Gray

@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                echo '🔍 Checking out source code...'
+                echo ' Checking out source code...'
                 checkout scm
                 script {
                     env.GIT_COMMIT_SHORT = bat(
@@ -25,7 +25,7 @@ pipeline {
         
         stage('Environment Setup') {
             steps {
-                echo '🛠️ Setting up build environment...'
+                echo ' Setting up build environment...'
                 bat '''
                     echo Build Number: %BUILD_NUMBER%
                     echo Git Commit: %GIT_COMMIT_SHORT%
@@ -37,28 +37,28 @@ pipeline {
         
         stage('Code Quality Check') {
             steps {
-                echo '🔍 Performing code quality checks...'
+                echo ' Performing code quality checks...'
                 bat '''
                     echo Checking backend directory...
                     if exist backend\\app\\main.py (
-                        echo ✅ Backend main.py found
+                        echo  Backend main.py found
                     ) else (
-                        echo ❌ Backend main.py not found
+                        echo  Backend main.py not found
                     )
                     
                     echo Checking frontend directory...
                     if exist frontend\\Devops_Intern.html (
-                        echo ✅ Frontend HTML file found
+                        echo  Frontend HTML file found
                     ) else (
-                        echo ❌ Frontend HTML file not found
+                        echo  Frontend HTML file not found
                     )
                     
                     echo Checking requirements.txt...
                     if exist backend\\requirements.txt (
-                        echo ✅ Requirements file found
+                        echo  Requirements file found
                         type backend\\requirements.txt
                     ) else (
-                        echo ❌ Requirements file not found
+                        echo  Requirements file not found
                     )
                 '''
             }
@@ -68,7 +68,7 @@ pipeline {
             parallel {
                 stage('Build Backend') {
                     steps {
-                        echo '🐳 Building backend Docker image...'
+                        echo ' Building backend Docker image...'
                         bat '''
                             echo Building backend image...
                             docker build -t %BACKEND_IMAGE%:%BUILD_NUMBER% backend/ || echo Backend build completed with warnings
@@ -79,7 +79,7 @@ pipeline {
                 
                 stage('Build Frontend') {
                     steps {
-                        echo '🐳 Building frontend Docker image...'
+                        echo ' Building frontend Docker image...'
                         bat '''
                             echo Building frontend image...
                             docker build -t %FRONTEND_IMAGE%:%BUILD_NUMBER% frontend/ || echo Frontend build completed with warnings
@@ -92,7 +92,7 @@ pipeline {
         
         stage('Test Images') {
             steps {
-                echo '🧪 Testing Docker images...'
+                echo ' Testing Docker images...'
                 bat '''
                     echo Testing image creation...
                     docker images | findstr fusionpact-devops-challenge || echo No images found yet
@@ -105,19 +105,19 @@ pipeline {
         
         stage('Security Scan') {
             steps {
-                echo '🔒 Performing security checks...'
+                echo ' Performing security checks...'
                 bat '''
                     echo Checking for sensitive files...
                     if exist .env (
-                        echo ⚠️ Environment file found - check for secrets
+                        echo  Environment file found - check for secrets
                     ) else (
-                        echo ✅ No .env file found
+                        echo  No .env file found
                     )
                     
                     if exist .git (
-                        echo ✅ Git repository detected
+                        echo  Git repository detected
                     ) else (
-                        echo ⚠️ No git repository found
+                        echo  No git repository found
                     )
                     
                     echo Security scan completed
@@ -127,7 +127,7 @@ pipeline {
         
         stage('Deploy to Test') {
             steps {
-                echo '🚀 Deploying to test environment...'
+                echo ' Deploying to test environment...'
                 bat '''
                     echo Preparing test deployment...
                     
@@ -146,7 +146,7 @@ pipeline {
         
         stage('Integration Tests') {
             steps {
-                echo '🔗 Running integration tests...'
+                echo ' Running integration tests...'
                 bat '''
                     echo Waiting for services to start...
                     timeout /t 10 /nobreak >nul
@@ -169,7 +169,7 @@ pipeline {
         
         stage('Performance Test') {
             steps {
-                echo '⚡ Running performance tests...'
+                echo ' Running performance tests...'
                 bat '''
                     echo Performance testing...
                     
@@ -186,7 +186,7 @@ pipeline {
         
         stage('Cleanup Test Environment') {
             steps {
-                echo '🧹 Cleaning up test environment...'
+                echo ' Cleaning up test environment...'
                 bat '''
                     echo Stopping test containers...
                     docker stop fusionpact-backend-test fusionpact-frontend-test 2>nul || echo Containers already stopped
@@ -200,7 +200,7 @@ pipeline {
         stage('Deploy to Production') {
 
             steps {
-                echo '🌟 Deploying to production...'
+                echo ' Deploying to production...'
                 bat '''
                     echo Production deployment...
                     
@@ -218,7 +218,7 @@ pipeline {
     
     post {
         always {
-            echo '📊 Build completed!'
+            echo ' Build completed!'
             bat '''
                 echo Build Summary:
                 echo ================
@@ -235,12 +235,12 @@ pipeline {
         }
         
         success {
-            echo '✅ Pipeline completed successfully!'
+            echo ' Pipeline completed successfully!'
             bat 'echo SUCCESS: All stages completed without errors'
         }
         
         failure {
-            echo '❌ Pipeline failed!'
+            echo ' Pipeline failed!'
             bat '''
                 echo FAILURE: Pipeline encountered errors
                 echo Check logs above for details
@@ -248,7 +248,7 @@ pipeline {
         }
         
         cleanup {
-            echo '🧹 Performing final cleanup...'
+            echo ' Performing final cleanup...'
             bat '''
                 echo Cleaning up temporary resources...
                 docker system prune -f --volumes 2>nul || echo System cleanup completed
