@@ -6,7 +6,7 @@ This level implements comprehensive monitoring and observability for the Fusionp
 ## Monitoring Stack Components
 
 ### 1. Prometheus (Port 9090)
-- **Purpose**: Metrics collection and storage
+- **Purpose**: Metrics collection and storage ee
 - **Configuration**: `prometheus.yml`
 - **Targets**: 
   - Backend API metrics (`/metrics` endpoint)
